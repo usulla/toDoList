@@ -30,10 +30,6 @@ class TodoList extends Component {
       this._inputElement.value = "";
     }
     e.preventDefault();
-
-    setTimeout(() => {
-      console.log(this.state.items)
-    }, 0);
   }
   render() {
     return (
