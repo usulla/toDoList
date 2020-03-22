@@ -1,6 +1,7 @@
 import React, { Component } from "react";
+import TodoItem from '../TodoItem/TodoItem';
 import ListGroup from 'react-bootstrap/ListGroup';
-import ListGroupItem from 'react-bootstrap/ListGroupItem';
+
 
 class TodoItems extends Component {
   constructor(props) {
@@ -8,10 +9,7 @@ class TodoItems extends Component {
     this.createTasks = this.createTasks.bind(this);
   }
   createTasks(item) {
-    return <ListGroupItem as="li" key={item.key} onClick={() => this.delete(item.key)} >{item.text}</ListGroupItem>
-  }
-  delete(key) {
-    this.props.delete(key);
+    return <TodoItem item={item} delete={this.props.delete}/>
   }
 
   render() {

@@ -1,10 +1,10 @@
 import React, { Component } from "react";
+import TodoItems from './TodoItems/TodoItems';
 import Form from 'react-bootstrap/Form';
 import FormGroup from 'react-bootstrap/FormGroup';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import TodoItems from '../TodoItems/TodoItems';
 
 class TodoList extends Component {
   constructor(props) {
