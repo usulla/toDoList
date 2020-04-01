@@ -10,7 +10,7 @@ class TodoItems extends Component {
     this.createTasks = this.createTasks.bind(this);
   }
   createTasks(item) {
-    return <TodoItem key={item.key} item={item} delete={this.props.delete} complete={this.props.complete} />
+    return <TodoItem keyList={this.props.keyList} key={item.key} item={item} delete={this.props.delete} complete={this.props.complete} />
   }
 
   render() {
