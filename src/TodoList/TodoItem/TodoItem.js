@@ -35,7 +35,7 @@ class TodoItem extends Component {
     return (
       <ListGroupItem as="li" style={liStyle} className={item.status ? styles.disabled : null}>
         <CheckButton />
-        {item.text}
+        <span className={styles.text}>{item.text}</span>
         <DeleteForeverIcon onClick={() => this.delete(keyList, item.key)} />
       </ListGroupItem>
     );

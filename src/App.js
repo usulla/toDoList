@@ -4,7 +4,15 @@ import './App.css';
 import TodoList from './TodoList/TodoList';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
-
+/* TODO: 
+- 1. добавить сворачивание списка
+- 2. добавить удаление списка
+- 3. добавить переименование списка
+- 4. сделать теги
+- 5. добавить фон
+- 6. фон из flickr или живые обои
+- 7. добавить иконку
+*/
 const Title = styled.h1`
   color:#000000;
   text-align:center;
@@ -22,18 +30,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: [
-        {
-          id: Date.now(),
-          title: 'Список дел',
-          items: [
-            {
-              text: 'ffffffff',
-              status: false,
-              key: Date.now()
-            }]
-        }
-      ]
+      lists: []
     };
     this.addList = this.addList.bind(this);
     this.addItem = this.addItem.bind(this);
@@ -44,18 +41,17 @@ class App extends Component {
   componentDidMount() {
     const todoItems = this.getFromStorage();
     /* Save to state */
-    const initialLists = localStorage.getItem(storageKey) ? JSON.parse(localStorage.getItem(storageKey)) : [
-      {
-        id: Date.now(),
-        title: 'Список дел',
-        items: [
-          {
-            text: 'ffffffff',
-            status: false,
-            key: Date.now()
-          }]
-      }
-    ];
+    const initiaItems = [{
+      id: Date.now(),
+      title: 'Список дел',
+      items: [
+        {
+          text: 'Купить продукты',
+          status: false,
+          key: Date.now()
+        }]
+    }];
+    const initialLists = localStorage.getItem(storageKey) ? JSON.parse(localStorage.getItem(storageKey)) : initiaItems
 
     this.setState({
       lists: initialLists
@@ -77,19 +73,18 @@ class App extends Component {
   addList() {
     var newList = {
       id: Date.now(),
-      title: 'Новый список дел'
+      title: 'Новый список дел',
+      items: []
     }
     this.setState(prevState => {
       return {
         lists: prevState.lists.concat(newList)
       }
     })
-    console.log(newList, 'newList');
   }
 
   addItem(keyList, taskInput, e) {
     e.preventDefault();
-    console.log(this.state.lists, 'fdf');
     if (taskInput.current.value !== "") {
       /* Create new entry */
       var newItem = {
@@ -132,13 +127,15 @@ class App extends Component {
     // NOTE: maybe const items =  getFromStorage();
     const filteredItems = this.state.lists.map(list => {
       return (
-        list.id == keyList ? {...list, items: list.items.map(item => {
+        list.id == keyList ? {
+          ...list, items: list.items.map(item => {
             return (
               item.key == key ? { ...item, status: !item.status } : item
             )
           })
         } : list
-      )})
+      )
+    })
 
     this.setState({
       lists: filteredItems
@@ -148,21 +145,21 @@ class App extends Component {
   }
 
   render() {
-        const lists = this.state.lists;
-        return (
-          <>
-            <Button variant="primary" onClick={this.addList}>Add List</Button>
-            <Title>Hello!</Title>
-            <Wrapper>
-              {lists.map(list => {
-                return (
-                  <TodoList list={list} key={list.id} title={list.title} items={list.items} keyList={list.id} addItem={this.addItem} deleteItem={this.deleteItem} completeItem={this.completeItem}/>
-                )
-              })}
-            </Wrapper>
-          </>
-        )
-      }
-    }
+    const lists = this.state.lists;
+    return (
+      <>
+        <Button variant="primary" onClick={this.addList}>Add List</Button>
+        <Title>Hello!</Title>
+        <Wrapper>
+          {lists.map(list => {
+            return (
+              <TodoList list={list} key={list.id} title={list.title} items={list.items} keyList={list.id} addItem={this.addItem} deleteItem={this.deleteItem} completeItem={this.completeItem} />
+            )
+          })}
+        </Wrapper>
+      </>
+    )
+  }
+}
 
 export default App;
