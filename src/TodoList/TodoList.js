@@ -17,7 +17,11 @@ import Button from '@material-ui/core/Button';
 const Title = styled.h2`
   color:#000000;
 `;
-
+const Header = styled.div`
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+`;
 const storageKey = "TODO_ITEMS";
 const delayMs = 1000;
 class TodoList extends Component {
@@ -41,18 +45,20 @@ class TodoList extends Component {
       deleteList = this.props.deleteList;
     return (
       <Card className={styles.card}>
-        <IconButton
-          aria-label="more"
-          aria-controls="long-menu"
-          aria-haspopup="true"
-          onClick={() => deleteList(keyList)}
-        >
-          <MoreVertIcon />
-        </IconButton>
         <CardContent>
-          <Typography variant="h4" component="h2" gutterBottom>
-            {title}
-          </Typography>
+          <Header>
+            <Typography variant="h4" component="h2" gutterBottom>
+              {title}
+            </Typography>
+            <IconButton
+              aria-label="more"
+              aria-controls="long-menu"
+              aria-haspopup="true"
+              onClick={() => deleteList(keyList)}
+            >
+              <MoreVertIcon />
+            </IconButton>
+          </Header>
           <div className="header">
             <Form onSubmit={this.props.addItem.bind(this, keyList, this.taskInput)}>
               <FormGroup controlId="formAddItem">
