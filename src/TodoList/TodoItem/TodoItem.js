@@ -15,28 +15,23 @@ class TodoItem extends Component {
   constructor(props) {
     super(props);
   }
-  delete(keyList, key) {
-    this.props.delete(keyList, key);
-  }
-  complete(keyList, key) {
-    this.props.complete(keyList, key);
-  }
+
   render() {
     const item = this.props.item,
       keyList = this.props.keyList;
     const CheckButton = () => {
       return (
         !item.status ?
-          <RadioButtonUncheckedIcon onClick={() => this.complete(keyList, item.key)} />
+          <RadioButtonUncheckedIcon onClick={() => this.props.complete(keyList, item.key)} />
           :
-          <CheckCircleOutlineIcon style={{ color: 'green' }} onClick={() => this.complete(keyList, item.key)} />
+          <CheckCircleOutlineIcon style={{ color: 'green' }} onClick={() => this.props.complete(keyList, item.key)} />
       )
     }
     return (
       <ListGroupItem as="li" style={liStyle} className={item.status ? styles.disabled : null}>
         <CheckButton />
         <span className={styles.text}>{item.text}</span>
-        <DeleteForeverIcon onClick={() => this.delete(keyList, item.key)} />
+        <DeleteForeverIcon onClick={() => this.props.delete(keyList, item.key)} />
       </ListGroupItem>
     );
   }

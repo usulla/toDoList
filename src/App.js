@@ -33,6 +33,7 @@ class App extends Component {
       lists: []
     };
     this.addList = this.addList.bind(this);
+    this.deleteList = this.deleteList.bind(this);
     this.addItem = this.addItem.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.completeItem = this.completeItem.bind(this);
@@ -81,6 +82,14 @@ class App extends Component {
         lists: prevState.lists.concat(newList)
       }
     })
+  }
+  deleteList(keyList) {
+    const filteredLists = this.state.lists.filter(list => list.id !== keyList);
+    /* Save to state */
+    this.setState({
+      lists: filteredLists
+    });
+    localStorage.setItem(storageKey, JSON.stringify(filteredLists));
   }
 
   addItem(keyList, taskInput, e) {
@@ -149,11 +158,11 @@ class App extends Component {
     return (
       <>
         <Button variant="primary" onClick={this.addList}>Add List</Button>
-        <Title>Hello!</Title>
+        <Title>My happy list</Title>
         <Wrapper>
           {lists.map(list => {
             return (
-              <TodoList list={list} key={list.id} title={list.title} items={list.items} keyList={list.id} addItem={this.addItem} deleteItem={this.deleteItem} completeItem={this.completeItem} />
+              <TodoList list={list} key={list.id} title={list.title} items={list.items} keyList={list.id} deleteList={this.deleteList} addItem={this.addItem} deleteItem={this.deleteItem} completeItem={this.completeItem} />
             )
           })}
         </Wrapper>
