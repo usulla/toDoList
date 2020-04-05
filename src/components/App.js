@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
+import ListsContext from '../ListsContext'
 import styled from 'styled-components'
-import './App.css';
-import TodoList from './TodoList/TodoList';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import TodoList from './TodoList/TodoList';
 import Button from 'react-bootstrap/Button';
+
 /* TODO: 
 - 1. добавить сворачивание списка
 - 2. добавить удаление списка
@@ -25,12 +26,12 @@ const Wrapper = styled.section`
 `;
 const storageKey = "TODO_ITEMS";
 const delayMs = 1000;
+export default class App extends Component {
 
-class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      lists: []
+      lists: [],
     };
     this.addList = this.addList.bind(this);
     this.deleteList = this.deleteList.bind(this);
@@ -42,7 +43,7 @@ class App extends Component {
   componentDidMount() {
     const todoItems = this.getFromStorage();
     /* Save to state */
-    const initiaItems = [{
+    const initialItems = [{
       id: Date.now(),
       title: 'Список дел',
       items: [
@@ -52,7 +53,7 @@ class App extends Component {
           key: Date.now()
         }]
     }];
-    const initialLists = localStorage.getItem(storageKey) ? JSON.parse(localStorage.getItem(storageKey)) : initiaItems
+    const initialLists = localStorage.getItem(storageKey) ? JSON.parse(localStorage.getItem(storageKey)) : initialItems
 
     this.setState({
       lists: initialLists
@@ -152,7 +153,6 @@ class App extends Component {
 
     localStorage.setItem(storageKey, JSON.stringify(filteredItems));
   }
-
   render() {
     const lists = this.state.lists;
     return (
@@ -162,7 +162,9 @@ class App extends Component {
         <Wrapper>
           {lists.map(list => {
             return (
-              <TodoList list={list} key={list.id} title={list.title} items={list.items} keyList={list.id} deleteList={this.deleteList} addItem={this.addItem} deleteItem={this.deleteItem} completeItem={this.completeItem} />
+              <ListsContext.Provider value={list}>
+                <TodoList key={list.id} title={list.title} deleteList={this.deleteList} addItem={this.addItem} deleteItem={this.deleteItem} completeItem={this.completeItem} />
+              </ListsContext.Provider>
             )
           })}
         </Wrapper>
@@ -170,5 +172,3 @@ class App extends Component {
     )
   }
 }
-
-export default App;
