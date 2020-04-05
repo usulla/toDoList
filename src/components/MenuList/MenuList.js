@@ -33,7 +33,7 @@ const MenuListComp = (props) => {
       >
         Toggle Menu Grow
 </Button>
-      <Popper open={open} anchorEl=  .current} role={undefined} transition disablePortal>
+      <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
         {({ TransitionProps, placement }) => (
           <Grow
             {...TransitionProps}

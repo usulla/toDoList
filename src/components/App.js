@@ -72,6 +72,7 @@ export default class App extends Component {
     // const updatedItems = [...items, { ...item, id: newId }];
     localStorage.setItem(storageKey, JSON.stringify(items));
   }
+
   addList() {
     var newList = {
       id: Date.now(),
@@ -162,8 +163,12 @@ export default class App extends Component {
         <Wrapper>
           {lists.map(list => {
             return (
-              <ListsContext.Provider value={list}>
-                <TodoList key={list.id} title={list.title} deleteList={this.deleteList} addItem={this.addItem} deleteItem={this.deleteItem} completeItem={this.completeItem} />
+              <ListsContext.Provider key={list.id} value={{
+                list: list,
+                deleteItem: this.deleteItem,
+                completeItem: this.completeItem
+              }}>
+                <TodoList idList={list.id} title={list.title} deleteList={this.deleteList} addItem={this.addItem} />
               </ListsContext.Provider>
             )
           })}

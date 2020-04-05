@@ -5,14 +5,14 @@ import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import ListGroup from 'react-bootstrap/ListGroup';
 
 
-const TodoItems = ({ completeItem, deleteItem }) => {
+const TodoItems = () => {
   const ListItems = () => {
     return (
       <ListsContext.Consumer>
-        {list => (
-          list.items.map(item => {
+        {context => (
+          context.list.items.map(item => {
             return (
-              <TodoItem item={item} keyList={list.id} key={item.key} deleteItem={deleteItem} completeItem={completeItem} />
+              <TodoItem item={item} key={item.key} />
             )
           })
         )}

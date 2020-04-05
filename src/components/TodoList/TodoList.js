@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ListsContext from '../../ListsContext'
 import styles from './styles.module.scss';
 import IconButton from '@material-ui/core/IconButton';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -43,43 +42,40 @@ class TodoList extends Component {
 
   render() {
     const title = this.props.title,
+      idList = this.props.idList,
+      addItem = this.props.addItem,
       deleteList = this.props.deleteList;
-
     return (
       <Card className={styles.card}>
-        <ListsContext.Consumer>
-          {list => (
-            <CardContent>
-              <Header>
-                <Typography variant="h4" component="h2" gutterBottom>
-                  {title}
-                </Typography>
-                <IconButton
-                  onClick={() => deleteList(list.id)}
-                >
-                  <MoreHorizIcon />
-                </IconButton>
-                <MenuList />
-              </Header>
-              <Form onSubmit={this.props.addItem.bind(this, list.id, this.taskInput)}>
-                <FormGroup controlId="formAddItem">
-                  <InputGroup className="mb-3">
-                    <FormControl
-                      ref={this.taskInput}
-                      placeholder="enter task"
-                    />
-                    <InputGroup.Append>
-                      <Button type="submit" variant="contained" color="primary">
-                        Add
+        <CardContent>
+          <Header>
+            <Typography variant="h4" component="h2" gutterBottom>
+              {title}
+            </Typography>
+            <IconButton
+              onClick={() => deleteList(idList)}
+            >
+              <MoreHorizIcon />
+            </IconButton>
+            <MenuList />
+          </Header>
+          <Form onSubmit={addItem.bind(this, idList, this.taskInput)}>
+            <FormGroup controlId="formAddItem">
+              <InputGroup className="mb-3">
+                <FormControl
+                  ref={this.taskInput}
+                  placeholder="enter task"
+                />
+                <InputGroup.Append>
+                  <Button type="submit" variant="contained" color="primary">
+                    Add
                   </Button>
-                    </InputGroup.Append>
-                  </InputGroup>
-                </FormGroup>
-              </Form>
-              <TodoItems delete={this.props.deleteItem} complete={this.props.completeItem} />
-            </CardContent>
-          )}
-        </ListsContext.Consumer>
+                </InputGroup.Append>
+              </InputGroup>
+            </FormGroup>
+          </Form>
+          <TodoItems />
+        </CardContent>
       </Card>
     );
   }
