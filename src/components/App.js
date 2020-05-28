@@ -25,7 +25,6 @@ const Wrapper = styled.section`
   flex-wrap:wrap;
 `;
 const storageKey = "TODO_ITEMS";
-const delayMs = 1000;
 export default class App extends Component {
 
   constructor(props) {
@@ -34,10 +33,17 @@ export default class App extends Component {
       lists: [],
     };
     this.addList = this.addList.bind(this);
-    this.deleteList = this.deleteList.bind(this);
-    this.addItem = this.addItem.bind(this);
+    this.updateListsState = this.updateListsState.bind(this);
     this.deleteItem = this.deleteItem.bind(this);
     this.completeItem = this.completeItem.bind(this);
+  }
+
+  updateListsState(newLists) {
+    this.setState((prevState => {
+      return {
+        lists: newLists
+      }
+    }));
   }
 
   componentDidMount() {
@@ -65,18 +71,10 @@ export default class App extends Component {
     return fromStorage ? JSON.parse(fromStorage) : [];
   }
 
-  setLocalStorage(items) {
-    //TODO:
-    // const items = getFromStorage();
-    // const newId = items.reduce((id, item) => (item.id >= id ? item.id + 1 : id), 1);
-    // const updatedItems = [...items, { ...item, id: newId }];
-    localStorage.setItem(storageKey, JSON.stringify(items));
-  }
-
   addList() {
     var newList = {
       id: Date.now(),
-      title: 'Новый список дел',
+      title: '',
       items: []
     }
     this.setState(prevState => {
@@ -85,47 +83,11 @@ export default class App extends Component {
       }
     })
   }
-  deleteList(keyList) {
-    const filteredLists = this.state.lists.filter(list => list.id !== keyList);
-    /* Save to state */
-    this.setState({
-      lists: filteredLists
-    });
-    localStorage.setItem(storageKey, JSON.stringify(filteredLists));
-  }
 
-  addItem(keyList, taskInput, e) {
-    e.preventDefault();
-    if (taskInput.current.value !== "") {
-      /* Create new entry */
-      var newItem = {
-        text: taskInput.current.value,
-        status: false,
-        key: Date.now()
-      }
-      const updatedLists = this.state.lists.map(list => {
-        return (
-          list.id == keyList ? { ...list, items: list.items.concat(newItem) } : list
-        )
-      })
-      /* Save to state */
-      this.setState((prevState => {
-        return {
-          lists: updatedLists
-        };
-      }));
-      /* Save to LocalStorage */
-      setTimeout(() => {
-        this.setLocalStorage(updatedLists);
-      }, delayMs);
-      /* Clear input for new task*/
-      taskInput.current.value = "";
-    }
-  }
   deleteItem(keyList, keyItem) {
     const filteredItems = this.state.lists.map(list => {
       return (
-        list.id == keyList ? { ...list, items: list.items.filter(item => item.key !== keyItem) } : list
+        list.id === keyList ? { ...list, items: list.items.filter(item => item.key !== keyItem) } : list
       )
     })
     /* Save to state */
@@ -138,10 +100,10 @@ export default class App extends Component {
     // NOTE: maybe const items =  getFromStorage();
     const filteredItems = this.state.lists.map(list => {
       return (
-        list.id == keyList ? {
+        list.id === keyList ? {
           ...list, items: list.items.map(item => {
             return (
-              item.key == key ? { ...item, status: !item.status } : item
+              item.key === key ? { ...item, status: !item.status } : item
             )
           })
         } : list
@@ -168,7 +130,7 @@ export default class App extends Component {
                 deleteItem: this.deleteItem,
                 completeItem: this.completeItem
               }}>
-                <TodoList idList={list.id} title={list.title} deleteList={this.deleteList} addItem={this.addItem} />
+                <TodoList idList={list.id} lists={this.state.lists} title={list.title} updateListsState={this.updateListsState}/>
               </ListsContext.Provider>
             )
           })}

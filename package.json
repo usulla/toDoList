@@ -1,4 +1,5 @@
-{ "homepage": "https://usulla.github.io/toDoList/",
+{
+  "homepage": "https://usulla.github.io/toDoList/",
   "name": "my-todolist",
   "version": "0.1.0",
   "private": true,

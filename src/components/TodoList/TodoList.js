@@ -1,10 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import styles from './styles.module.scss';
-import IconButton from '@material-ui/core/IconButton';
-import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-import MenuList from '../MenuList/MenuList';
+import HeaderList from './HeaderList/HeaderList'
 import TodoItems from './TodoItems/TodoItems';
-import styled from 'styled-components'
 import Form from 'react-bootstrap/Form';
 import FormGroup from 'react-bootstrap/FormGroup';
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -12,73 +9,81 @@ import FormControl from 'react-bootstrap/FormControl';
 // import Button from 'react-bootstrap/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 
-const Title = styled.h2`
-  color:#000000;
-`;
-const Header = styled.div`
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-`;
 const storageKey = "TODO_ITEMS";
 const delayMs = 1000;
-class TodoList extends Component {
-  constructor(props) {
-    super(props);
-    this.taskInput = React.createRef();
-    this.setLocalStorage = this.setLocalStorage.bind(this);
+
+const TodoList = ({ lists, title, idList, updateListsState }) => {
+
+  const taskInput = React.createRef();
+
+  const saveTitleList = (newTitle) => {
+    const renamedLists = lists.map(list => {
+      return (
+        list.id === idList ? { ...list, title: newTitle } : list
+      )
+    })
+    /* Save to state */
+    updateListsState(renamedLists);
+    localStorage.setItem(storageKey, JSON.stringify(renamedLists));
+  };
+
+  const deleteList = () => {
+    const filteredLists = lists.filter(list => list.id !== idList);
+    /* Save to state */
+    updateListsState(filteredLists);
+    localStorage.setItem(storageKey, JSON.stringify(filteredLists));
+  }
+  const addItem = (taskInput, e) => {
+    e.preventDefault();
+    if (taskInput.current.value !== "") {
+      /* Create new entry */
+      var newItem = {
+        text: taskInput.current.value,
+        status: false,
+        key: Date.now()
+      }
+      const updatedLists = lists.map(list => {
+        return (
+          list.id === idList ? { ...list, items: list.items.concat(newItem) } : list
+        )
+      })
+      /* Save to state */
+      updateListsState(updatedLists)
+      /* Save to LocalStorage */
+      setTimeout(() => {
+        localStorage.setItem(storageKey, JSON.stringify(updatedLists));
+      }, delayMs);
+      /* Clear input for new task*/
+      taskInput.current.value = "";
+    }
   }
 
-  setLocalStorage(items) {
-    //TODO:
-    // const items = getFromStorage();
-    // const newId = items.reduce((id, item) => (item.id >= id ? item.id + 1 : id), 1);
-    // const updatedItems = [...items, { ...item, id: newId }];
-    localStorage.setItem(storageKey, JSON.stringify(items));
-  }
-
-  render() {
-    const title = this.props.title,
-      idList = this.props.idList,
-      addItem = this.props.addItem,
-      deleteList = this.props.deleteList;
-    return (
-      <Card className={styles.card}>
-        <CardContent>
-          <Header>
-            <Typography variant="h4" component="h2" gutterBottom>
-              {title}
-            </Typography>
-            <IconButton
-              onClick={() => deleteList(idList)}
-            >
-              <MoreHorizIcon />
-            </IconButton>
-            <MenuList />
-          </Header>
-          <Form onSubmit={addItem.bind(this, idList, this.taskInput)}>
-            <FormGroup controlId="formAddItem">
-              <InputGroup className="mb-3">
-                <FormControl
-                  ref={this.taskInput}
-                  placeholder="enter task"
-                />
-                <InputGroup.Append>
-                  <Button type="submit" variant="contained" color="primary">
-                    Add
+  return (
+    <Card className={styles.card}>
+      <CardContent>
+        <HeaderList title={title} deleteList={deleteList} saveTitleList={saveTitleList} />
+        {/* <Form onSubmit={addItem.bind(this, idList, taskInput)}> */}
+        <Form onSubmit={(e) => addItem(taskInput, e)}>
+          <FormGroup controlId="formAddItem">
+            <InputGroup className="mb-3">
+              <FormControl
+                ref={taskInput}
+                placeholder="enter task"
+              />
+              <InputGroup.Append>
+                <Button type="submit" variant="contained" color="primary">
+                  Add
                   </Button>
-                </InputGroup.Append>
-              </InputGroup>
-            </FormGroup>
-          </Form>
-          <TodoItems />
-        </CardContent>
-      </Card>
-    );
-  }
+              </InputGroup.Append>
+            </InputGroup>
+          </FormGroup>
+        </Form>
+        <TodoItems />
+      </CardContent>
+    </Card>
+  );
 }
 
 export default TodoList;
