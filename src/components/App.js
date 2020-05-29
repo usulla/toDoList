@@ -3,6 +3,7 @@ import ListsContext from '../ListsContext'
 import styled from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import TodoList from './TodoList/TodoList';
+import SideBar from './SideBar/SideBar';
 import Button from 'react-bootstrap/Button';
 
 /* TODO: 
@@ -120,7 +121,7 @@ export default class App extends Component {
     const lists = this.state.lists;
     return (
       <>
-        <Button variant="primary" onClick={this.addList}>Add List</Button>
+        <SideBar addList={this.addList}/>
         <Title>My happy list</Title>
         <Wrapper>
           {lists.map(list => {

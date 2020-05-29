@@ -25,7 +25,7 @@ const HeaderList = ({ title, deleteList, saveTitleList }) => {
   return (
     <Header>
       {titleOfList.trim().length !== 0 &&
-        <Typography variant="h5" component="h2" gutterBottom>
+        <Typography variant="h6" component="h2" gutterBottom>
           {titleOfList}
         </Typography>
       }
