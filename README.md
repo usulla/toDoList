@@ -1,6 +1,15 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Main versions:
+
+1) [with Materila-UI](https://github.com/usulla/toDoList/tree/materila-ui)<br />
+2) [with XXX](https://github.com/usulla/toDoList/tree/master)
+
 
 ## Available Scripts
+For deploy to Github Page:
+### `npm run deploy`
+
+Will run deploy from branch gh-pages
 
 In the project directory, you can run:
 
