@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles } from '@material-ui/core/styles';
+import { Router, NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles({
     list: {
@@ -19,10 +20,10 @@ const useStyles = makeStyles({
         width: 'auto',
     },
     menuButton: {
-        margin:'20px'
+        margin: '20px'
     },
 });
-const SideBar = ({addList}) => {
+const SideBar = ({ addList }) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const lists = [
@@ -69,6 +70,17 @@ const SideBar = ({addList}) => {
                                 <ListItemText primary={list.title} onClick={list.action} />
                             </ListItem>
                         ))}
+                    </List>
+                    <Divider />
+                    <List>
+                        <ListItem button>
+                            <ListItemIcon><MailIcon /></ListItemIcon>
+                            <NavLink to="/">Todo lisr</NavLink>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><InboxIcon /></ListItemIcon>
+                            <NavLink to="/wether">Wether</NavLink>
+                        </ListItem>
                     </List>
                     <Divider />
                 </div>
