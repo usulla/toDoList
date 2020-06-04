@@ -19,21 +19,21 @@ const TodoItem = ({ item }) => {
     return (
       <ListsContext.Consumer>
         {context => (
-          !item.status ?
-            <RadioButtonUncheckedIcon onClick={() => context.completeItem(context.list.id, item.key)} />
+          !item.completed ?
+            <RadioButtonUncheckedIcon onClick={() => context.completeItem(context.list.id, item.id)} />
             :
-            <CheckCircleOutlineIcon style={{ color: 'green' }} onClick={() => context.completeItem(context.list.id, item.key)} />
+            <CheckCircleOutlineIcon style={{ color: 'green' }} onClick={() => context.completeItem(context.list.id, item.id)} />
         )}
       </ListsContext.Consumer>
     )
   }
   return (
-    <ListGroupItem as="li" style={liStyle} className={item.status ? styles.disabled : null}>
+    <ListGroupItem as="li" style={liStyle} className={item.completed ? styles.disabled : null}>
       <CheckButton />
       <span className={styles.text}>{item.text}</span>
       <ListsContext.Consumer>
         {context => (
-          <DeleteForeverIcon onClick={() => context.deleteItem(context.list.id, item.key)} />
+          <DeleteForeverIcon onClick={() => context.deleteItem(context.list.id, item.id)} />
         )
         }
       </ListsContext.Consumer>

@@ -10,7 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles } from '@material-ui/core/styles';
-import { Router, NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 const useStyles = makeStyles({
     list: {
@@ -23,18 +23,9 @@ const useStyles = makeStyles({
         margin: '20px'
     },
 });
-const SideBar = ({ addList }) => {
+const SideBar = () => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
-    const lists = [
-        {
-            id: Date.now(),
-            title: "Add list",
-            action: () => {
-                addList()
-            }
-        }
-    ]
     const toggleDrawer = event => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
             return;
@@ -63,14 +54,14 @@ const SideBar = ({ addList }) => {
                     onClick={toggleDrawer}
                     onKeyDown={toggleDrawer}
                 >
-                    <List>
+                    {/* <List>
                         {lists.map((list, index) => (
                             <ListItem button key={list.id}>
                                 <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
                                 <ListItemText primary={list.title} onClick={list.action} />
                             </ListItem>
                         ))}
-                    </List>
+                    </List> */}
                     <Divider />
                     <List>
                         <ListItem button>
