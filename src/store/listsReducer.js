@@ -1,6 +1,6 @@
 import { CREATE_LIST, DELETE_LIST, RENAME_LIST, INIT, ADD_TODO, DELETE_TODO, COMPLETED_TODO } from './types'
 
-const initialState = {
+const initialLists = {
     lists: [{
         id: Date.now(),
         title: 'Дела на сегодня',
@@ -14,6 +14,9 @@ const initialState = {
     }]
 }
 
+const stateFromLocalStorage = JSON.parse((localStorage.getItem('TODO_ITEMS')))
+const initialState = stateFromLocalStorage ? { lists: stateFromLocalStorage } : initialLists
+
 export const listsReducer = (state = initialState, action) => {
     switch (action.type) {
         case INIT:
@@ -21,6 +24,7 @@ export const listsReducer = (state = initialState, action) => {
         case CREATE_LIST:
             return {
                 ...state,
+                // ...state.concat([action.payload])
                 lists: state.lists.concat([action.payload])
             }
         case DELETE_LIST:

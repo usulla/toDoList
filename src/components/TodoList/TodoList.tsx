@@ -36,7 +36,6 @@ const TodoList: React.FC<TodoListProps> = (props) => {
         text: taskInput.current!.value,
         completed: false
       }
-      /* Save to state */
       props.addTodo(idList, newItem)
       /* Clear input for new task*/
       taskInput.current!.value = "";

@@ -2,15 +2,21 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './index.css'
 import { App } from './components/App'
-import { compose, createStore } from 'redux'
+import { compose, createStore, applyMiddleware } from 'redux'
+import thunk from 'redux-thunk'
+import logger from 'redux-logger'
 import { Provider } from 'react-redux'
 import { rootReducer } from './store/rootReducer'
-
+import { STORAGE_KEY } from './store/types'
 import * as serviceWorker from './serviceWorker'
 
 const store = createStore(rootReducer,
-  compose(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+  compose(applyMiddleware(thunk, logger), window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
 )
+/* Save to LocaStorage */
+store.subscribe(() => {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(store.getState().lists.lists))
+})
 
 ReactDOM.render(
   <Provider store={store}>
