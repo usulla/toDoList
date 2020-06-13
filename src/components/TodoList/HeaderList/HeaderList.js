@@ -12,24 +12,22 @@ const Header = styled.div`
   align-items:center;
   margin-bottom:10px;
 `;
-const HeaderList = ({ title, deleteList, saveTitleList }) => {
-  const [titleOfList, setTitle] = React.useState(title);
+const HeaderList = ({ idList, title, deleteList, saveTitleList }) => {
   const titleInput = React.createRef();
 
   const renameList = (e) => {
-    setTitle(titleInput.current.value)
-    saveTitleList(titleInput.current.value)
+    saveTitleList(idList, titleInput.current.value)
     e.preventDefault()
   };
 
   return (
     <Header>
-      {titleOfList.trim().length !== 0 &&
+      {title.trim().length !== 0 &&
         <Typography variant="h6" component="h2" gutterBottom>
-          {titleOfList}
+          {title}
         </Typography>
       }
-      {titleOfList.trim().length === 0 &&
+      {title.trim().length === 0 &&
         <>
           <TextField style={{ marginBottom: '20px' }}
             label="Title"
@@ -42,7 +40,7 @@ const HeaderList = ({ title, deleteList, saveTitleList }) => {
           </IconButton>
         </>
       }
-      <MenuOfList deleteList={deleteList} renameList={setTitle} />
+      <MenuOfList deleteList={deleteList} renameList={saveTitleList} idList={idList} />
     </Header>
   )
 }

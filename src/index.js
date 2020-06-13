@@ -1,14 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import {App} from './components/App';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './index.css'
+import { App } from './components/App'
+import { compose, createStore } from 'redux'
+import { Provider } from 'react-redux'
+import { rootReducer } from './store/rootReducer'
 
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from './serviceWorker'
+
+const store = createStore(rootReducer,
+  compose(window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())
+)
 
 ReactDOM.render(
-  <React.Fragment>
+  <Provider store={store}>
     <App />
-  </React.Fragment>,
+  </Provider>,
   document.getElementById('root')
 );
 

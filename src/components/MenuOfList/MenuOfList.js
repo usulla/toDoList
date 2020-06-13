@@ -39,9 +39,8 @@ const MenuOfList = ({ deleteList, renameList, idList }) => {
             <Paper >
               <ClickAwayListener onClickAway={handleToggleMenu}>
                 <MenuList onClose={handleToggleMenu} autoFocusItem={open}>
-                  <MenuItem onClick={() => { handleToggleMenu(); renameList('') }}>Rename list</MenuItem>
+                  <MenuItem onClick={() => { handleToggleMenu(); renameList(idList, '') }}>Rename list</MenuItem>
                   <MenuItem onClick={() => { deleteList() }}>Delete list</MenuItem>
-                  <MenuItem onClick={handleToggleMenu}>Logout</MenuItem>
                 </MenuList>
               </ClickAwayListener>
             </Paper>

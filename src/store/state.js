@@ -1,13 +1,31 @@
-const state = {
-    topicsByUrl: {
-        "/r/Jokes/": {
-            title: "Jokes",
-            description: "The funniest sub on reddit. Hundreds of jokes posted each day, and some of them aren't even reposts! FarCraft"
+const state = [{
+    id: Date.now(),
+    title: 'Дела на сегодня',
+    todos: [
+        {
+            id: Date.now(),
+            text: 'Купить продукты',
+            completed: false
         },
-        "/r/pics/": {
-            title: "pics",
-            description: "I bet you can figure it out by reading the name of the subreddit"
-        }
-    },
-    selectedTopicUrls: ["/r/Jokes/"]
+        {
+            id: Date.now(),
+            text: 'Прочитать книгу',
+            completed: true
+        }]
+},
+{
+    id: Date.now(),
+    title: 'Сделать за неделю',
+    todos: [
+        {
+            id: Date.now(),
+            text: 'Отправить отчет',
+            completed: false
+        },
+        {
+            id: Date.now(),
+            text: 'Прочитать всю книгу',
+            completed: true
+        }]
 }
+]

@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SideBar from './SideBar/SideBar';
-import { TodosPage } from '../pages/TodosPage';
+import TodosPage from '../pages/TodosPage';
 import { WetherPage } from '../pages/WetherPage';
 /* TODO: 
 - 1. добавить сворачивание списка

@@ -7,6 +7,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
 
+
 const liStyle = {
   display: 'flex',
   justifyContent: 'space-between',
@@ -41,4 +42,5 @@ const TodoItem = ({ item }) => {
   );
 }
 
-export default TodoItem;
+
+export default TodoItem

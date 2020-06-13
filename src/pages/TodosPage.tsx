@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { ITodo } from '../interfaces';
 import ListsContext from '../ListsContext'
-import { TodoList } from '../components/TodoList/TodoList';
+import TodoList from '../components/TodoList/TodoList';
 import styled from 'styled-components'
 import Button from '@material-ui/core/Button';
-
+import { connect } from 'react-redux'
+import { createList, deleteList, initLoad, deleteTodo, completedTodo } from '../store/actions'
+import { STORAGE_KEY } from '../store/types.js'
 const storageKey: string = "TODO_ITEMS";
 const Title = styled.h1`
   color:#000000;
   text-align:center;
   width:100%;
+  font-size:2rem;
 `;
-export const TodosPage: React.FC = () => {
+const TodosPage: React.FC<any> = (props) => {
     const [todos, setTodos] = useState<ITodo[]>([])
 
     const updateListsState = (newTodos: ITodo[]) => {
@@ -29,14 +32,14 @@ export const TodosPage: React.FC = () => {
                     completed: false
                 }]
         }];
-        const lists = JSON.parse((localStorage.getItem(storageKey)) || JSON.stringify(initialItems)) as ITodo[]
-        setTodos(lists)
+        const lists = JSON.parse((localStorage.getItem(STORAGE_KEY)) || JSON.stringify(initialItems)) as ITodo[]
+        props.initLoad(lists)
     }, [])
 
     /* Update lS */
     useEffect(() => {
-        localStorage.setItem(storageKey, JSON.stringify(todos))
-    }, [todos])
+        localStorage.setItem(storageKey, JSON.stringify(props.lists))
+    }, [props.lists])
 
     const addList = (): void => {
         const newList: ITodo = {
@@ -44,58 +47,52 @@ export const TodosPage: React.FC = () => {
             title: '',
             todos: []
         }
-        setTodos(prev => prev.concat(newList))
+        props.createList(newList)
     }
 
     const deleteTodo = (idList: string | number, idTodo: string | number): void => {
-        const filteredTodos = todos.map(list => {
-            return (
-                list.id === idList ?
-                    {
-                        ...list, todos: list.todos.filter(todo => todo.id !== idTodo)
-                    }
-                    : list
-            )
-        })
-        setTodos(filteredTodos)
+        props.deleteTodo(idList, idTodo)
     }
 
     const completedTodo = (idList: string | number, idTodo: string | number): void => {
-        const completedTodos: any = todos.map(list => {
-            return (
-                list.id === idList ? {
-                    ...list, todos: list.todos.map(todo => {
-                        return (
-                            todo.id === idTodo ?
-                                { todo, completed: !todo.completed }
-                                : todo
-                        )
-                    })
-                } : list
-            )
-        })
-        setTodos(completedTodos)
+        props.completedTodo(idList, idTodo)
     }
     return (
         <>
-            <Title>My happy todos</Title>
-            <div style={{ width: '100%', textAlign: 'center' }}>
-                <Button onClick={addList}>Add list</Button>
+            <Title>HAPPY TODOS</Title>
+            <div style={{ width: '100%', textAlign: 'center', marginTop:'20px' }}>
+                <Button variant="contained" color="primary" onClick={addList}>Add list</Button>
             </div>
-            {(todos.length === 0) &&
+            {(props.lists.length === 0) &&
                 <p className="center">While there is no business</p>
             }
-            {todos.map(list => {
+            {props.lists.map(list => {
                 return (
                     <ListsContext.Provider key={list.id} value={{
                         list: list,
                         deleteItem: deleteTodo,
                         completeItem: completedTodo
                     }}>
-                        <TodoList idList={list.id} lists={todos} title={list.title} updateListsState={updateListsState} />
+                        <TodoList idList={list.id} title={list.title} />
                     </ListsContext.Provider>
                 )
             })}
         </>
     )
 }
+const mapStateToProps = (store: any): any => {
+    return {
+        lists: store.lists.lists
+    }
+}
+const mapDispatchToProps = (dispatch: any): any => {
+    return {
+        createList: (newList: any) => dispatch(createList(newList)),
+        deleteList: (id: string | number) => dispatch(deleteList(id)),
+        initLoad: (lists) => dispatch(initLoad(lists)),
+        deleteTodo: (idList, idTodo) => dispatch(deleteTodo(idList, idTodo)),
+        completedTodo: (idList, idTodo) => dispatch(completedTodo(idList, idTodo)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TodosPage)
