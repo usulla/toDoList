@@ -5,6 +5,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import SideBar from './SideBar/SideBar';
 import TodosContainer from '../containers/TodosContainer';
 import { WishPage } from '../pages/WishPage';
+import NewsContainer from 'containers/NewsContainer';
+
 /* TODO: 
 - 1. добавить сворачивание списка
 + 2. добавить удаление списка
@@ -29,6 +31,7 @@ export const App = () => {
         <Wrapper>
           <Switch>
             <Route component={TodosContainer} path='/' exact />
+            <Route component={NewsContainer} path='/news' />
             <Route component={WishPage} path='/wishlist' />
           </Switch>
         </Wrapper>

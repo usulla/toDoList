@@ -6,7 +6,6 @@ import List from '@material-ui/core/List';
 import Divider from '@material-ui/core/Divider';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import { makeStyles } from '@material-ui/core/styles';
@@ -54,19 +53,15 @@ const SideBar = () => {
                     onClick={toggleDrawer}
                     onKeyDown={toggleDrawer}
                 >
-                    {/* <List>
-                        {lists.map((list, index) => (
-                            <ListItem button key={list.id}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={list.title} onClick={list.action} />
-                            </ListItem>
-                        ))}
-                    </List> */}
                     <Divider />
                     <List>
                         <ListItem button>
                             <ListItemIcon><MailIcon /></ListItemIcon>
                             <NavLink to="/">Todo list</NavLink>
+                        </ListItem>
+                        <ListItem button>
+                            <ListItemIcon><InboxIcon /></ListItemIcon>
+                            <NavLink to="/news">News</NavLink>
                         </ListItem>
                         <ListItem button>
                             <ListItemIcon><InboxIcon /></ListItemIcon>
