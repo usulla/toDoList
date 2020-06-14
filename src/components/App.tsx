@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SideBar from './SideBar/SideBar';
 import TodosContainer from '../containers/TodosContainer';
-import { WetherPage } from '../pages/WetherPage';
+import { WishPage } from '../pages/WishPage';
 /* TODO: 
 - 1. добавить сворачивание списка
 + 2. добавить удаление списка
@@ -29,7 +29,7 @@ export const App = () => {
         <Wrapper>
           <Switch>
             <Route component={TodosContainer} path='/' exact />
-            <Route component={WetherPage} path='/wether' />
+            <Route component={WishPage} path='/wishlist' />
           </Switch>
         </Wrapper>
       </BrowserRouter>

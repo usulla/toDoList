@@ -66,11 +66,11 @@ const SideBar = () => {
                     <List>
                         <ListItem button>
                             <ListItemIcon><MailIcon /></ListItemIcon>
-                            <NavLink to="/">Todo lisr</NavLink>
+                            <NavLink to="/">Todo list</NavLink>
                         </ListItem>
                         <ListItem button>
                             <ListItemIcon><InboxIcon /></ListItemIcon>
-                            <NavLink to="/wether">Wether</NavLink>
+                            <NavLink to="/wishlist">Wish list</NavLink>
                         </ListItem>
                     </List>
                     <Divider />
