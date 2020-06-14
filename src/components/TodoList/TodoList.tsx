@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import RootRef from '@material-ui/core/RootRef';
 // import styles from './styles.module.scss';
-import { connect } from 'react-redux'
 import HeaderList from './HeaderList/HeaderList'
 import { TodoItems } from './TodoItems/TodoItems.js';
 import Form from 'react-bootstrap/Form';
@@ -13,7 +12,6 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Button from '@material-ui/core/Button';
 import { ITodo, T } from '../../interfaces';
-import { addTodo, deleteList, renameList } from '../../store/actions'
 
 type TodoListProps = {
   title: string
@@ -24,7 +22,7 @@ type TodoListProps = {
 }
 
 const TodoList: React.FC<TodoListProps> = (props) => {
-  const { title, idList } = props
+  const { title, idList, addTodo, deleteList, renameList } = props
   const taskInput = useRef<HTMLInputElement>(null);
 
   const addItem = (event: React.FormEvent<HTMLInputElement>) => {
@@ -36,17 +34,17 @@ const TodoList: React.FC<TodoListProps> = (props) => {
         text: taskInput.current!.value,
         completed: false
       }
-      props.addTodo(idList, newItem)
+      addTodo(idList, newItem)
       /* Clear input for new task*/
       taskInput.current!.value = "";
     }
   }
   return (
-    <Card style={{ margin: '35px 40px',maxWidth:'320px', width:'320px'}}>
+    <Card style={{ margin: '35px 40px', maxWidth: '320px', width: '320px' }}>
       <CardContent>
         <HeaderList idList={idList} title={title}
-          deleteList={() => props.deleteList(idList)}
-          saveTitleList={(idList, title) => props.renameList(idList, title)} />
+          deleteList={() => deleteList(idList)}
+          saveTitleList={(idList, title) => renameList(idList, title)} />
         {/* <Form onSubmit={addItem.bind(this, idList, taskInput)}> */}
         <Form onSubmit={(event: any): void => addItem(event)}>
           <FormGroup controlId="formAddItem">
@@ -72,12 +70,4 @@ const TodoList: React.FC<TodoListProps> = (props) => {
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    addTodo: (idList: any, todo: any) => dispatch(addTodo(idList, todo)),
-    deleteList: (idList: any) => dispatch(deleteList(idList)),
-    renameList: (idList: any, title) => dispatch(renameList(idList, title))
-  }
-}
-
-export default connect(null, mapDispatchToProps)(TodoList)
+export default TodoList;

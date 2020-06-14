@@ -14,7 +14,6 @@ export const deleteList = (id) => {
     }
 }
 export const renameList = (idList, title) => {
-    console.log(idList, title)
     return {
         type: RENAME_LIST,
         payload: { idList, title }

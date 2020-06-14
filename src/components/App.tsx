@@ -3,7 +3,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import styled from 'styled-components'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SideBar from './SideBar/SideBar';
-import TodosPage from '../pages/TodosPage';
+import TodosContainer from '../containers/TodosContainer';
 import { WetherPage } from '../pages/WetherPage';
 /* TODO: 
 - 1. добавить сворачивание списка
@@ -28,7 +28,7 @@ export const App = () => {
         <SideBar />
         <Wrapper>
           <Switch>
-            <Route component={TodosPage} path='/' exact />
+            <Route component={TodosContainer} path='/' exact />
             <Route component={WetherPage} path='/wether' />
           </Switch>
         </Wrapper>
